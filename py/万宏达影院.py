@@ -18,20 +18,20 @@ class Spider(Spider):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Referer": "http://www.whwhd.com"
         }
-        
+
     def getName(self):
         return "万宏达影院"
-    
+
     def init(self, extend=""):
         pass
-        
+
     def isVideoFormat(self, url):
         video_formats = ['.m3u8', '.mp4', '.flv', '.avi', '.mkv', '.mov', '.ts']
         return any(url.lower().endswith(fmt) for fmt in video_formats)
-    
+
     def manualVideoCheck(self):
         return False
-    
+
     def homeContent(self, filter):
         """首页分类 - 带二级筛选"""
         result = {
@@ -101,7 +101,7 @@ class Spider(Spider):
             }
         }
         return result
-    
+
     def homeVideoContent(self):
         """首页推荐视频"""
         videos = []
@@ -110,20 +110,20 @@ class Spider(Spider):
             rsp = requests.get(url, headers=self.headers, timeout=10)
             rsp.encoding = 'utf-8'
             soup = BeautifulSoup(rsp.text, 'html.parser')
-            
+
             items = soup.select('li.col-lg-6.col-md-6.col-sm-4.col-xs-3')
             for item in items:
                 a_tag = item.select_one('a.myui-vodlist__thumb')
                 if not a_tag:
                     continue
-                
+
                 href = a_tag.get('href', '')
                 title = a_tag.get('title', '')
                 pic = a_tag.get('data-original', '') or a_tag.get('src', '')
-                
+
                 remark_tag = item.select_one('span.pic-text')
                 remark = remark_tag.get_text(strip=True) if remark_tag else ""
-                
+
                 vid = self._extract_id(href)
                 if vid and title:
                     videos.append({
@@ -134,39 +134,39 @@ class Spider(Spider):
                     })
                     if len(videos) >= 30:
                         break
-                    
+
         except Exception as e:
             print(f"homeVideoContent error: {e}")
-        
+
         return {"list": videos}
-    
+
     def categoryContent(self, tid, pg, filter, extend):
         """分类内容"""
         result = {}
         videos = []
-        
+
         try:
             # 构建正确的分类URL
             # 格式: /show/{分类}-----------{页码}.html
             url = f"{self.siteUrl}/show/{tid}-----------{pg}.html"
-            
+
             rsp = requests.get(url, headers=self.headers, timeout=10)
             rsp.encoding = 'utf-8'
             soup = BeautifulSoup(rsp.text, 'html.parser')
-            
+
             items = soup.select('li.col-lg-6.col-md-6.col-sm-4.col-xs-3')
             for item in items:
                 a_tag = item.select_one('a.myui-vodlist__thumb')
                 if not a_tag:
                     continue
-                
+
                 href = a_tag.get('href', '')
                 title = a_tag.get('title', '')
                 pic = a_tag.get('data-original', '') or a_tag.get('src', '')
-                
+
                 remark_tag = item.select_one('span.pic-text')
                 remark = remark_tag.get_text(strip=True) if remark_tag else ""
-                
+
                 vid = self._extract_id(href)
                 if vid and title:
                     videos.append({
@@ -175,32 +175,32 @@ class Spider(Spider):
                         "vod_pic": urljoin(self.siteUrl, pic) if pic else "",
                         "vod_remarks": remark
                     })
-            
+
             page_count = self._get_page_count(soup)
-            
+
             result['list'] = videos
             result['page'] = pg
             result['pagecount'] = page_count
             result['limit'] = len(videos)
             result['total'] = page_count * len(videos) if videos else 0
-            
+
         except Exception as e:
             print(f"categoryContent error: {e}")
-            
+
         return result
-    
+
     def detailContent(self, ids):
         """详情页"""
         result = {}
         videos = []
-        
+
         for vid in ids:
             try:
                 detail_urls = [
                     f"{self.siteUrl}/film/{vid}.html",
                     f"{self.siteUrl}/View/{vid}.html"
                 ]
-                
+
                 html = ""
                 for url in detail_urls:
                     rsp = requests.get(url, headers=self.headers, timeout=10)
@@ -208,47 +208,47 @@ class Spider(Spider):
                     if rsp.status_code == 200:
                         html = rsp.text
                         break
-                
+
                 if not html:
                     continue
-                    
+
                 soup = BeautifulSoup(html, 'html.parser')
-                
+
                 title_elem = soup.select_one('h1.title')
                 title = title_elem.get_text(strip=True) if title_elem else ""
-                
+
                 pic_elem = soup.select_one('.myui-content__thumb img, .myui-vodlist__thumb img')
                 pic = ""
                 if pic_elem:
                     pic = pic_elem.get('data-original', '') or pic_elem.get('src', '')
-                
+
                 actor = self._extract_info(soup, '主演')
                 director = self._extract_info(soup, '导演')
                 area = self._extract_info(soup, '地区') or self._extract_info(soup, '分类')
                 year = self._extract_info(soup, '年份')
-                
+
                 status = self._extract_info(soup, '状态')
                 update_time = self._extract_info(soup, '更新')
                 remark = f"{status} {update_time}".strip() if status or update_time else ""
-                
+
                 content_elem = soup.select_one('#jianjie + .myui-panel_bd .content, .desc, .sketch')
                 content = ""
                 if content_elem:
                     content = content_elem.get_text(strip=True)
                     content = re.sub(r'\.\.\.查看$', '', content).strip()
-                
+
                 # 解析播放列表
                 play_from = []
                 play_url = []
-                
+
                 playlist_wrappers = soup.select('.tab-content.myui-panel_bd, #playlist1, .myui-content__playlist')
                 tab_links = soup.select('.nav-tabs li a')
-                
+
                 for idx, wrapper in enumerate(playlist_wrappers):
                     source_name = "播放源" + str(idx + 1)
                     if idx < len(tab_links):
                         source_name = tab_links[idx].get_text(strip=True)
-                    
+
                     links = []
                     for a in wrapper.select('ul.myui-content__list li a, .playlist li a'):
                         href = a.get('href', '')
@@ -257,11 +257,11 @@ class Spider(Spider):
                             play_id = self._extract_play_id(href)
                             if play_id:
                                 links.append(f"{text}${play_id}")
-                    
+
                     if links:
                         play_from.append(source_name)
                         play_url.append("#".join(links))
-                
+
                 if not play_from:
                     play_btn = soup.select_one('a[href*="/Tvb/"]')
                     if play_btn:
@@ -270,7 +270,7 @@ class Spider(Spider):
                         if play_id:
                             play_from.append("默认")
                             play_url.append(f"正片${play_id}")
-                
+
                 videos.append({
                     "vod_id": vid,
                     "vod_name": title,
@@ -284,38 +284,38 @@ class Spider(Spider):
                     "vod_play_from": "$$$".join(play_from) if play_from else "默认",
                     "vod_play_url": "$$$".join(play_url) if play_url else ""
                 })
-                
+
             except Exception as e:
                 print(f"detailContent error for {vid}: {e}")
                 continue
-        
+
         result['list'] = videos
         return result
-    
+
     def searchContent(self, key, quick, pg="1"):
         """搜索"""
         result = {}
         videos = []
-        
+
         try:
             url = f"{self.siteUrl}/search/{quote(key)}----------{pg}---.html"
             rsp = requests.get(url, headers=self.headers, timeout=10)
             rsp.encoding = 'utf-8'
             soup = BeautifulSoup(rsp.text, 'html.parser')
-            
+
             items = soup.select('li.col-lg-6.col-md-6.col-sm-4.col-xs-3')
             for item in items:
                 a_tag = item.select_one('a.myui-vodlist__thumb')
                 if not a_tag:
                     continue
-                
+
                 href = a_tag.get('href', '')
                 title = a_tag.get('title', '')
                 pic = a_tag.get('data-original', '') or a_tag.get('src', '')
-                
+
                 remark_tag = item.select_one('span.pic-text')
                 remark = remark_tag.get_text(strip=True) if remark_tag else ""
-                
+
                 vid = self._extract_id(href)
                 if vid and title:
                     videos.append({
@@ -324,30 +324,30 @@ class Spider(Spider):
                         "vod_pic": urljoin(self.siteUrl, pic) if pic else "",
                         "vod_remarks": remark
                     })
-            
+
             result['list'] = videos
             result['page'] = int(pg)
             result['pagecount'] = 9999
             result['limit'] = len(videos)
             result['total'] = 999999
-            
+
         except Exception as e:
             print(f"searchContent error: {e}")
-            
+
         return result
-    
+
     def playerContent(self, flag, id, vipFlags):
         """播放器解析 - 强制直链，不走本地代理"""
         result = {}
-        
+
         try:
             url = f"{self.siteUrl}/Tvb/{id}.html"
-            
+
             rsp = requests.get(url, headers=self.headers, timeout=10)
             rsp.encoding = 'utf-8'
-            
+
             real_url = ""
-            
+
             # 从 player_aaaa 变量中提取
             player_match = re.search(r'var\s+player_aaaa\s*=\s*({.+?});', rsp.text, re.DOTALL)
             if player_match:
@@ -356,76 +356,91 @@ class Spider(Spider):
                     real_url = player_json.get('url', '')
                 except:
                     pass
-            
+
+            # 尝试从其他可能的变量中提取
             if not real_url:
+                # 尝试多种可能的URL提取模式
+                patterns = [
+                    r'player_aaaa\s*=\s*\{[^}]*"url"\s*:\s*"([^"]+)"',
+                    r'"url"\s*:\s*"([^"]+)"',
+                    r'src\s*:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+                    r'url\s*:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+                ]
+                for pattern in patterns:
+                    match = re.search(pattern, rsp.text)
+                    if match:
+                        real_url = match.group(1)
+                        break
+
+            if not real_url:
+                # 如果提取失败，返回待解析状态
                 result["parse"] = 1
                 result["url"] = url
                 result["header"] = json.dumps(self.headers)
                 return result
-            
+
+            # 清理URL
             if real_url.startswith('//'):
                 real_url = 'https:' + real_url
-            
-            # 关键：强制直链，防止壳子走本地代理
-            # 方法1：使用parse=0且设置jx=0
-            # 方法2：在URL中添加特殊标记（某些壳子会识别）
-            # 方法3：使用header中的特殊字段
-            
+
+            # 移除所有查询参数，防止壳子干扰
+            if '?' in real_url:
+                real_url = real_url.split('?')[0]
+
+            # 关键修复：强制直链，不走代理
+            # parse=0 表示直链播放
+            # jx=0 明确禁用代理
             result["parse"] = 0
-            # 添加一个假的查询参数，让壳子认为这是已处理的URL
-            # 某些壳子检测到特定参数会跳过代理
-            if '?' not in real_url:
-                real_url = real_url + "?direct=1"
-            
             result["url"] = real_url
-            result["header"] = json.dumps({
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Referer": "http://www.whwhd.com",
-                "Origin": "http://www.whwhd.com",
-                "X-Direct-Play": "1"  # 自定义header，某些壳子会识别
-            })
             result["jx"] = 0
-            
+
+            # 设置必要的请求头
+            result["header"] = json.dumps({
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Referer": self.siteUrl,
+                "Origin": self.siteUrl
+            })
+
         except Exception as e:
             print(f"playerContent error: {e}")
             result["parse"] = 1
             result["url"] = f"{self.siteUrl}/Tvb/{id}.html"
             result["header"] = json.dumps(self.headers)
-            
+
         return result
-    
+
     def localProxy(self, param):
         """本地代理 - 如果壳子强制走代理，这里做中转"""
         import requests as req
-        
+
         try:
             url = param.get('url', '')
             if not url:
                 return {}
-            
+
             # 解码URL
             if '%' in url:
                 url = unquote(url)
-            
+
             # 移除我们添加的direct参数
             url = re.sub(r'\?direct=1$', '', url)
-            
+
             # 请求真实m3u8
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
                 "Referer": "http://www.whwhd.com",
                 "Origin": "http://www.whwhd.com"
             }
-            
+
             rsp = req.get(url, headers=headers, timeout=30, verify=False)
-            
+
             content = rsp.content
-            
+
             # 处理m3u8内容，转换相对路径
             if b'#EXTM3U' in content:
                 text = content.decode('utf-8', errors='ignore')
                 base_url = url.rsplit('/', 1)[0] + '/'
-                
+
                 lines = text.split('\n')
                 new_lines = []
                 for line in lines:
@@ -434,9 +449,9 @@ class Spider(Spider):
                         new_lines.append(base_url + line)
                     else:
                         new_lines.append(line)
-                
+
                 content = '\n'.join(new_lines).encode('utf-8')
-            
+
             return {
                 'code': 200,
                 'header': {
@@ -445,7 +460,7 @@ class Spider(Spider):
                 },
                 'body': content
             }
-            
+
         except Exception as e:
             print(f"localProxy error: {e}")
             return {
@@ -453,9 +468,9 @@ class Spider(Spider):
                 'header': {},
                 'body': b''
             }
-    
+
     # ============ 辅助方法 ============
-    
+
     def _extract_id(self, url):
         """从URL中提取视频ID"""
         patterns = [
@@ -467,14 +482,14 @@ class Spider(Spider):
             if match:
                 return match.group(1)
         return url.strip('/').split('/')[-1].replace('.html', '')
-    
+
     def _extract_play_id(self, url):
         """从播放URL中提取ID"""
         match = re.search(r'/Tvb/([\d\-]+)\.html', url)
         if match:
             return match.group(1)
         return self._extract_id(url)
-    
+
     def _get_page_count(self, soup):
         """获取总页数"""
         try:
@@ -492,7 +507,7 @@ class Spider(Spider):
             return max_page
         except:
             return 999
-    
+
     def _extract_info(self, soup, label):
         """提取详情信息"""
         try:

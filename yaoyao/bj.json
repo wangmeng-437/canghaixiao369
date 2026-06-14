@@ -1,6 +1,50 @@
 {
     "sites": [
     {
+            "key": "py_熊猫视频",
+            "name": "熊猫1",
+            "type": 3,
+            "api": "./py/py_熊猫视频.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+        {
+            "key": "py_红桃视频",
+            "name": "红桃视频",
+            "type": 3,
+            "api": "./py/py_红桃视频.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+        {
+            "key": "py_蘑菇视频",
+            "name": "蘑菇视频",
+            "type": 3,
+            "api": "./py/py_蘑菇视频.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+        {
+            "key": "py_小黄书",
+            "name": "小黄书",
+            "type": 3,
+            "api": "./py/py_小黄书.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+    {
             "key": "成鸡思汉",
             "name": "✨Aries|成鸡思汉✨",
             "type": 3,
@@ -102,8 +146,8 @@
       "type": 0,
       "api": "https://www.msnii.com/api/xml.php",
       "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 0
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "lebo",

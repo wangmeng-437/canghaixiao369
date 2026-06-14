@@ -4,7 +4,7 @@
       "name": "自用咪咕",
       "type": 0,
       "playerType": 2,
-      "url": "http://8.145.55.221:1111/",
+      "url": "http://47.93.202.2:1111/",
       "ua": "okhttp/4.1.0",
       "epg": "https://epg.112114.eu.org/?ch={name}&date={date}"
     },
@@ -100,17 +100,6 @@
       "indexs": 1,
       "ext": "./token/tokenm.json$$$./json/douban.json"
     },
-    {
-      "key": "车载DJ2",
-      "name": "🅱┃自用┃车载音乐类",
-      "type": 3,
-      "api": "csp_Bili",
-      "searchable": 0,
-      "quickSearch": 0,
-      "filterable": 1,
-      "ext": "./json/吾爱自用.json",
-      "jar": "./jar/spider.jar"
-    },
     
     {
       "jar": "./jar/pg.jar",
@@ -122,6 +111,96 @@
       "changeable": 0,
       "ext": "./json/market.json"
     },
+    
+{
+    "key": "哔哩自用",
+    "name": "🅱┃自用┃AI类教程",
+    "type": 3,
+    "api": "csp_Bili",
+    "jar": "./jar/BXS.jar",
+    "searchable": 1,
+    "quickSearch": 0,
+    "filterable": 0,
+    "changeable": 0,
+    "style": {
+        "type": "rect",
+        "ratio": 1.433
+    },
+    "ext": {
+        "json": "./json/吾爱自用.json",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+    }
+},
+{
+    "key": "哔哩健身",
+    "name": "🅱健身教程",
+    "type": 3,
+    "api": "csp_Bili",
+    "jar": "./jar/BXS.jar",
+    "searchable": 1,
+    "quickSearch": 0,
+    "filterable": 0,
+    "changeable": 0,
+    "style": {
+        "type": "rect",
+        "ratio": 1.433
+    },
+    "ext": {
+        "json": "./json/吾爱瑜伽.json",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+    }
+},
+{
+    "key": "哔哩TG",
+    "name": "🅱TG音乐台",
+    "type": 3,
+    "api": "csp_Bili",
+    "jar": "./jar/BXS.jar",
+    "searchable": 1,
+    "quickSearch": 0,
+    "filterable": 0,
+    "changeable": 0,
+    "style": {
+        "type": "rect",
+        "ratio": 1.433
+    },
+    "ext": {
+        "json": "./json/哔哩MTV.json",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+    }
+},
+    {
+    "key": "哔哩DG",
+    "name": "🅱DG音乐台",
+    "type": 3,
+    "api": "csp_Bili",
+    "jar": "./jar/BXS.jar",
+    "searchable": 1,
+    "quickSearch": 0,
+    "filterable": 0,
+    "changeable": 0,
+    "style": {
+        "type": "rect",
+        "ratio": 1.433
+    },
+    "ext": {
+        "json": "./json/ych.json",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+    }
+},
+    
+    
+    {
+      "key": "js_车载MV",
+      "name": "🚗车载┃音乐",
+      "type": 3,
+      "api": "./JS/lib/车载api.js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./JS/车载MV.js"
+    },
+    
     {
       "key": "drpy_js_腾云驾雾",
       "name": "🌿腾讯官源",
@@ -134,6 +213,19 @@
       "order_num": 0,
       "ext": "./JS/腾云驾雾[官].js"
     },
+
+        {
+    "key": "py_wanhd",
+    "name": "万宏达影院",
+    "type": 3,
+    "api": "./py/万宏达影院.py",
+    "searchable": 1,
+    "changeable": 1,
+    "quickSearch": 1,
+    "filterable": 1,
+    "playerType": 2,
+    "ext": ""
+},
     {
       "key": "dr_瓜子影视",
       "name": "🍒瓜子影视[影][DR]",
@@ -190,17 +282,6 @@
       "api": "./api/drpy2.min.js",
       "ext": "./JS/172MV[音].js"
     },
-    {
-            "key": "py_wanhongda",
-            "name": "万宏达影院",
-            "type": 3,
-            "api": "./py/万宏达影院.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
     {
       "key": "py_深港音乐",
       "name": "🍈深港音乐[音][PY]",
@@ -356,7 +437,7 @@
       "key": "tangdou1",
       "name": "T4-糖豆只写",
       "type": 1,
-      "api": "https://8.145.55.221/T4/糖豆广场舞.php",
+      "api": "https://185211.xyz/T4/糖豆广场舞.php",
       "playUrl": "",
       "searchable": 0,
       "quickSearch": 0,
@@ -403,16 +484,10 @@
       "filterable": 0
     },
     {
-            "key": "tuxiaobei_open",
-            "name": "🐰兔小贝[js]",
-            "type": 3,
-            "api": "./JS/tuxiaobei_open.js"
-        },
-    {
       "key": "tuxiaobei",
       "name": "T4-兔小贝",
       "type": 1,
-      "api": "https://8.145.55.221/T4/tuxiaobei.php",
+      "api": "https://185211.xyz/T4/tuxiaobei.php",
       "playUrl": "",
       "searchable": 0,
       "quickSearch": 0,
@@ -434,11 +509,22 @@
       "filterable": 0,
       "changeable": 0
     },
+    
+    {
+      "key": "guaziyungshi",
+      "name": "T4-瓜子影视2",
+      "type": 1,
+      "api": "https://185211.xyz/T4/瓜子影视.php",
+      "playUrl": "",
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 0
+    },
     {
       "key": "beilehu",
       "name": "T4-贝乐虎",
       "type": 1,
-      "api": "https://8.145.55.221/T4/beilehu.php",
+      "api": "https://185211.xyz/T4/beilehu.php",
       "playUrl": "",
       "searchable": 0,
       "quickSearch": 0,
@@ -448,7 +534,7 @@
       "key": "tancebe2",
       "name": "T4-糖豆自写2",
       "type": 1,
-      "api": "https://8.145.55.221/T4/tangdou.php",
+      "api": "https://185211.xyz/T4/tangdou.php",
       "playUrl": "",
       "searchable": 0,
       "quickSearch": 0,
@@ -458,7 +544,7 @@
       "key": "tancebe",
       "name": "T4-糖豆自写",
       "type": 1,
-      "api": "https://8.145.55.221/T4/tangdou-T4完美可用.php",
+      "api": "https://185211.xyz/T4/tangdou-T4完美可用.php",
       "playUrl": "",
       "searchable": 0,
       "quickSearch": 0,
@@ -972,7 +1058,7 @@
       "key": "瓜子py",
       "name": "🚗┃瓜子┃py",
       "type": 3,
-      "api": "./py/瓜子.py",
+      "api": "./py/瓜娃子.py",
       "searchable": 1,
       "quickSearch": 0,
       "filterable": 0,
@@ -1477,50 +1563,7 @@
       "quickSearch": 1,
       "filterable": 0
     },
-    {
-      "key": "健身",
-      "name": "🅱健身教程",
-      "type": 3,
-      "api": "csp_Bili",
-      "searchable": 0,
-      "quickSearch": 0,
-      "filterable": 1,
-      "ext": "./json/吾爱瑜伽.json",
-      "jar": "./jar/spider.jar"
-    },
     
-    {
-      "key": "哔哩",
-      "name": "🅱TG音乐台",
-      "type": 3,
-      "api": "csp_Bili",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": "./json/哔哩MTV.json",
-      "jar": "./jar/spiderdj.jar"
-    },
-    {
-      "key": "DG音乐仓1",
-      "name": "🅱DG音乐台",
-      "type": 3,
-      "api": "csp_Bili",
-      "searchable": 1,
-      "quickSearch": 1,
-      "changeable": 0,
-      "ext": "./json/ych.json",
-      "jar": "./jar/spider.jar"
-    },
-    {
-      "key": "js_车载MV",
-      "name": "🚗车载┃音乐",
-      "type": 3,
-      "api": "./JS/lib/车载api.js",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "./JS/车载MV.js"
-    },
     {
       "api": "./py/七猫短剧.py",
       "filterable": 1,
@@ -3417,16 +3460,6 @@
       "jar": "./jar/jcsq.jar"
     },
     {
-      "key": "應用商店",
-      "name": "♻️影视软件下载商店",
-      "type": 3,
-      "api": "csp_Market",
-      "searchable": 0,
-      "changeable": 0,
-      "ext": "./json/商店.json",
-      "jar": "./jar/spider2.jar"
-    },
-    {
       "key": "版本信息",
       "name": "版本｜信息",
       "type": 3,
@@ -3436,8 +3469,17 @@
       "changeable": 0,
       "indexs": 0,
       "ext": "https://d.kstore.dev/download/11354/market.json"
+    },
+    {
+      "key": "應用商店",
+      "name": "♻️影视软件下载商店",
+      "type": 3,
+      "api": "csp_Market",
+      "searchable": 0,
+      "changeable": 0,
+      "ext": "./json/商店.json",
+      "jar": "./jar/spider2.jar"
     }
-     
   ],
   "parses": [
   

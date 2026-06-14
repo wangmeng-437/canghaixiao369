@@ -1,22 +1,11 @@
 {
-  "classes": [
+  "class": [
+
     {
-      "type_name": "车载U盘DJ",
-      "type_id": "车载U盘DJ"
-    }, 
-    
-    {
-      "type_name": "小可音乐",
-      "type_id": "小可音乐"
-    }, 
-    {
-      "type_name": "大头针",
-      "type_id": "大头针"
-    }, 
-    {
-      "type_name": "广场舞",
-      "type_id": "广场舞"
-    }, 
+      "type_name": "《回龙传》王华买爹",
+      "type_id": "河南坠子《回龙传》（王华买爹）"
+    },
+
     {
       "type_name": "相声小品",
       "type_id": "相声小品"
@@ -29,6 +18,22 @@
       "type_name": "国学经典动画片",
       "type_id": "国学经典动画片"
     }, 
+
+    {
+      "type_name": "车载U盘DJ",
+      "type_id": "车载U盘DJ"
+    }, 
+    
+    {
+      "type_name": "小可音乐",
+      "type_id": "小可音乐"
+    }, 
+    
+    {
+      "type_name": "广场舞",
+      "type_id": "广场舞"
+    }, 
+    
     {
       "type_name": "豫剧",
       "type_id": "豫剧"
@@ -236,10 +241,6 @@
             "v": "0"
           },
            
-           {
-                "n": "大头针",
-                "v": "大头针"
-            },
             {
                 "n": "精选",
                 "v": "车载U盘DJ"
